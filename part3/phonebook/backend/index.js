@@ -5,6 +5,7 @@ const cors = require("cors");
 const Person = require("./models/person");
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
 //tokens do morgan sao criados assim, primeiro parametro é o nome do token
 //o segundo é a função que o token realiza
@@ -54,6 +55,16 @@ let persons = [
     id: 6,
   },
 ];
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
 
 const generateId = () => {
   const maxId = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
@@ -115,7 +126,8 @@ app.post("/api/persons", (req, res) => {
   person.save().then((savedPerson) => res.json(savedPerson.toJSON()));
 });
 
-const PORT = process.env.PORT || 3001;
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
