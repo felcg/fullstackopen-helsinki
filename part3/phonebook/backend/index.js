@@ -56,6 +56,7 @@ let persons = [
   },
 ];
 
+//Customiza o errorHandler padrao do Express
 const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
@@ -72,6 +73,8 @@ const generateId = () => {
 };
 
 app.get("/api/persons", (req, res) => {
+  //Usa o model Person e o find() do mongoose com o campo vazio para achar todas as pessoas
+  //em seguida usa o toJSON() para trazer um JSON já que no mongoDB os itens são objetos
   Person.find({}).then((persons) =>
     res.json(persons.map((person) => person.toJSON()))
   );
@@ -126,6 +129,9 @@ app.post("/api/persons", (req, res) => {
   person.save().then((savedPerson) => res.json(savedPerson.toJSON()));
 });
 
+//Atualiza o numero de uma pessoa na lista utilizando o metodo put
+//passando o numero no objeto person, entao procurando o id usando
+//findByIdAndUpdate do mongoose
 app.put("/api/persons/:id", (req, res, next) => {
   const body = req.body;
   const person = {
@@ -139,6 +145,8 @@ app.put("/api/persons/:id", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+//Aqui mandamos o app usar o errorHandler, ele precisa ser chamado no
+//final do app para que ele possa tratar qualquer erro
 app.use(errorHandler);
 
 app.listen(PORT, () => {

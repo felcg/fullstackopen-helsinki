@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/persons
+GET     
 
 ###
 
@@ -6,10 +6,18 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name": "Arto Hellaas",
-    "number": "123"
+    "name": "Jowy Atreides",
+    "number": "108"
 }
 
 ###
 
-DELETE http://localhost:3001/api/persons/2
+DELETE http://localhost:3001/api/persons/5ea7717cbc0d011d405314dc
+
+###
+PUT http://localhost:3001/api/persons/5ea7706dc42f7e0ddccf4531
+Content-Type: application/json
+
+{
+    "number": "54"
+}
