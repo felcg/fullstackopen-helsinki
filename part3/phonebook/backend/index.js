@@ -86,14 +86,15 @@ app.get("/info", (req, res) => {
 });
 
 app.get("/api/persons/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const person = persons.find((person) => person.id === id);
-
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).end();
-  }
+  Person.findById(req.params.id)
+    .then((person) => {
+      if (person) {
+        res.json(person.toJSON());
+      } else {
+        res.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (req, res) => {
@@ -105,6 +106,10 @@ app.delete("/api/persons/:id", (req, res) => {
 
 app.post("/api/persons", (req, res) => {
   const body = req.body;
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
   if (!body.name) {
     return res.status(400).json({ error: "name is missing" });
@@ -114,16 +119,24 @@ app.post("/api/persons", (req, res) => {
     return res.status(400).json({ error: "number is missing" });
   }
 
-  // if (persons.find((person) => person.name === body.name)) {
-  //   return res.status(400).json({ error: "name already in the book" });
-  // }
-
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  });
+  if (persons.find((person) => person.name === body.name)) {
+    console.log("Name already in the book");
+  }
 
   person.save().then((savedPerson) => res.json(savedPerson.toJSON()));
+});
+
+app.put("/api/persons/:id", (req, res, next) => {
+  const body = req.body;
+  const person = {
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(req.params.id, person, {
+    new: true,
+  })
+    .then((updatedPerson) => res.json(updatedPerson.toJSON()))
+    .catch((error) => next(error));
 });
 
 app.use(errorHandler);
