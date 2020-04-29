@@ -62,6 +62,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).send({ error: error.message });
   }
 
   next(error);
@@ -107,7 +109,7 @@ app.delete("/api/persons/:id", (req, res) => {
   });
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const body = req.body;
   const person = new Person({
     name: body.name,
@@ -126,7 +128,11 @@ app.post("/api/persons", (req, res) => {
     console.log("Name already in the book");
   }
 
-  person.save().then((savedPerson) => res.json(savedPerson.toJSON()));
+  person
+    .save()
+    .then((savedPerson) => savedPerson.toJSON())
+    .then((savedAndFormattedPerson) => res.json(savedAndFormattedPerson))
+    .catch((error) => next(error));
 });
 
 //Atualiza o numero de uma pessoa na lista utilizando o metodo put

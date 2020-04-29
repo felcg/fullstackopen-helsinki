@@ -90,17 +90,25 @@ const App = () => {
       //caso nao seja um usuário novo, adiciona o objeto novo com o state persons
       //e limpa o state newPerson para que fique em branco e possa ser usado novamente
     } else {
-      personService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(personObject));
-        setNewPerson({ name: "", number: "" });
-        //Modifica a mensagem de notificação e faz ela sumir depois de 5 sec
-        setNotificationMessage(
-          `${personObject.name} was added to the phonebook`
-        );
-        setTimeout(() => {
-          setNotificationMessage(null);
-        }, 5000);
-      });
+      personService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(personObject));
+          setNewPerson({ name: "", number: "" });
+          //Modifica a mensagem de notificação e faz ela sumir depois de 5 sec
+          setNotificationMessage(
+            `${personObject.name} was added to the phonebook`
+          );
+          setTimeout(() => {
+            setNotificationMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          setErrorMessage(`${error.response.data.error}`);
+          setTimeout(() => {
+            setErrorMessage(null);
+          }, 5000);
+        });
     }
   };
 
