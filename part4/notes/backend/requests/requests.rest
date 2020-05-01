@@ -1,0 +1,29 @@
+GET http://localhost:3001/api/notes/
+
+###
+
+GET http://localhost:3001/api/notes/5ea7084f3779933ae0ee5792
+
+###
+
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Reading is fundamental",
+    "important": true
+}
+
+###
+
+DELETE http://localhost:3001/api/notes/5ea7084f3779933ae0ee5792
+
+###
+
+PUT http://localhost:3001/api/notes/5ea7585207ccb73aac5d170f
+Content-Type: application/json
+
+{
+    "content": "VS Code REST client is pretty good... pretty good.",
+    "important": false
+}
