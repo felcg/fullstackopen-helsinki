@@ -16,7 +16,7 @@ Content-Type: application/json
 DELETE http://localhost:3003/api/blogs/5eacc3f21657b0371c9cc926
 
 ###
-PUT http://localhost:3003/api/blogs
+PUT http://localhost:3003/api/blogs/5eacc3e01657b0371c9cc925
 Content-Type: application/json
 
 {
