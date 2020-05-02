@@ -103,6 +103,24 @@ test('blog can be deleted', async () => {
     expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1)
 })
 
+test('blog likes can be edited', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToEdit = blogsAtStart[0]
+    const editedBlog = {
+        likes: 10,
+    }
+
+    const response = await api
+        .put(`/api/blogs/${blogToEdit.id}`)
+        .send(editedBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtStart.length).toEqual(blogsAtEnd.length)
+    expect(response.body.likes).toEqual(editedBlog.likes)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
