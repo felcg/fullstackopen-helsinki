@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+mongoose.set('useCreateIndex', true)
 mongoose.set('useFindAndModify', false)
 
 const noteSchema = new mongoose.Schema({
@@ -10,6 +11,10 @@ const noteSchema = new mongoose.Schema({
     type: Date,
   },
   important: Boolean,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
 })
 
 noteSchema.set('toJSON', {

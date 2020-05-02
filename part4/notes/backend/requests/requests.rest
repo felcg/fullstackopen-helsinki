@@ -10,8 +10,9 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "content": "Reading is fundamental",
-    "important": true
+    "content": "Reading is fundamental 2",
+    "important": true,
+    "userId": "5eae039d2415d83890405edc"
 }
 
 ###
@@ -26,4 +27,17 @@ Content-Type: application/json
 {
     "content": "VS Code REST client is pretty good... pretty good.",
     "important": false
+}
+
+### 
+GET http://localhost:3001/api/users/
+
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "Felipe2",
+    "name": "xfelipecg",
+    "password": "password"
 }
