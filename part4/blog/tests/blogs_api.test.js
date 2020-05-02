@@ -9,8 +9,8 @@ const api = supertest(app)
 beforeEach(async () => {
     await Blog.deleteMany({})
 
-    const blogObjects = helper.initialBlogList.map((note) => new Blog(note))
-    const promiseArray = blogObjects.map((note) => note.save())
+    const blogObjects = helper.initialBlogList.map((blog) => new Blog(blog))
+    const promiseArray = blogObjects.map((blog) => blog.save())
     await Promise.all(promiseArray)
 })
 
@@ -26,6 +26,27 @@ test('identifier property of the blog posts is named id', async () => {
     const blog = blogs[0]
 
     expect(blog.id).toBeDefined()
+})
+
+test('successfully creates a new blog post', async () => {
+    const newBlog = {
+        title: 'A Verdade',
+        author: 'Lucas Xisde',
+        url: 'averade.com.br',
+        likes: 108,
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const titles = blogsAtEnd.map((blog) => blog.title)
+    expect(blogsAtEnd.length).toBe(helper.initialBlogList.length + 1)
+    expect(titles).toContain(newBlog.title)
 })
 
 afterAll(() => {
