@@ -77,6 +77,21 @@ test('likes default to 0 if missging', async () => {
     expect(createdBlog.likes).toBe(0)
 })
 
+test('blog post without title and url properties is not added', async () => {
+    const newBlog = {
+        author: 'Lucas Xisde',
+        likes: 10,
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogList.length)
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
