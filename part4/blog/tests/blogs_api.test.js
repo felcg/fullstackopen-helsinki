@@ -20,6 +20,14 @@ test('returns the correct amount of blog posts in JSON format', async () => {
         .expect(200)
         .expect('Content-Type', /application\/json/)
 })
+
+test('identifier property of the blog posts is named id', async () => {
+    const blogs = await helper.blogsInDb()
+    const blog = blogs[0]
+
+    expect(blog.id).toBeDefined()
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
