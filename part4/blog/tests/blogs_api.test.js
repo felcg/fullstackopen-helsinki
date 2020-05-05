@@ -37,6 +37,9 @@ describe('when there are blogs already in the db', () => {
 
     test('blog can be deleted', async () => {
         const blogsAtStart = await helper.blogsInDb()
+
+        // Cria um novo post e um novo usuario pois o sistema nao permite
+        // que usuarios nao cadastrados criem ou deletem posts
         const newBlog = {
             title: 'A Verdade',
             author: 'Lucas Xisde',
@@ -48,17 +51,23 @@ describe('when there are blogs already in the db', () => {
             username: 'Felipe',
             password: 'password',
         }
+
+        // Loga o usuario e pega a token recebida pelo middleware que criamos
+        // pois apenas o usuario que criou o post pode deletá-lo
         const loggedInUser = await api.post('/api/login').send(user)
         const { token } = loggedInUser.body
 
+        // Envia o novo post por um POST request
         await api
             .post('/api/blogs')
             .send(newBlog)
             .set('Authorization', `bearer ${token}`)
 
+        // Recebe o psot criado e o seleciona (ja existem 5 posts na lista)
         const postedBlog = await api.get('/api/blogs')
         const blogToDelete = postedBlog.body[6]
 
+        // Finalmente deleta o post
         await api
             .delete(`/api/blogs/${blogToDelete.id}`)
             .set('Authorization', `bearer ${token}`)
