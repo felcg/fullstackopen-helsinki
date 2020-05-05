@@ -29,6 +29,7 @@ notesRouter.get('/:id', async (request, response, next) => {
   }
 })
 
+// eslint-disable-next-line consistent-return
 notesRouter.post('/', async (request, response, next) => {
   const { body } = request
   const token = getTokenFrom(request)

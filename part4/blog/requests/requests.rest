@@ -22,3 +22,20 @@ Content-Type: application/json
 {
     "likes": 10
 }
+
+###
+
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "Felipe",
+    "name": "xfelipecg",
+    "password": "password"
+}
+
+###
+DELETE http://localhost:3003/api/users/5eb0c5dd58ebfe4508ab3cc3
