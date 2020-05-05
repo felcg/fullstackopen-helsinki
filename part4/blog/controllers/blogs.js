@@ -39,10 +39,23 @@ blogsRouter.post('/', async (request, response, next) => {
     }
 })
 
-blogsRouter.delete('/:id', async (req, res, next) => {
+blogsRouter.delete('/:id', async (request, response, next) => {
+    const { token } = request
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
+    const blog = await Blog.findById(request.params.id)
+    // console.log(user.id.toString())
+    // console.log(blog.user.toString())
     try {
-        await Blog.findByIdAndRemove(req.params.id)
-        res.status(204).end()
+        // if (user.id.toString() === blog.user.toString()) {
+        await Blog.findByIdAndRemove(request.params.id)
+        response.status(204).end()
+        // } else {
+        //     return response.status(400).json({ error: 'can\'t delete posts you are not the owner of' })
+        // }
     } catch (error) {
         next(error)
     }
