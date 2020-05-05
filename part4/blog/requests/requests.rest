@@ -9,7 +9,8 @@ Content-Type: application/json
     "title": "A Verdade 2",
     "author": "Lucas Xisde",
     "url": "String",
-    "likes": 108
+    "likes": 108,
+    "userId": "5eb0c6436cefcd2ffc840584"
 }
 
 ###
@@ -32,9 +33,9 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "username": "Fel",
+    "username": "Felipe",
     "name": "xfelipecg",
-    "password": "123456"
+    "password": "12"
 }
 
 ###
