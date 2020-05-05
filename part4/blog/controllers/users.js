@@ -7,21 +7,31 @@ usersRouter.get('/', async (request, response) => {
     response.json(users.map((u) => u.toJSON()))
 })
 
-usersRouter.post('/', async (request, response) => {
-    const { body } = request
+// eslint-disable-next-line consistent-return
+usersRouter.post('/', async (request, response, next) => {
+    try {
+        const { body } = request
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(body.password, saltRounds)
+        if (body.password === undefined) {
+            return response.status(400).json({ error: 'password is missing' })
+        } if (body.password.length < 3) {
+            return response.status(400).json({ error: 'password must have more than 3 characters' })
+        }
 
-    const user = new User({
-        username: body.username,
-        name: body.name,
-        passwordHash,
-    })
+        const saltRounds = 10
+        const passwordHash = await bcrypt.hash(body.password, saltRounds)
 
-    const savedUser = await user.save()
+        const user = new User({
+            username: body.username,
+            name: body.name,
+            passwordHash,
+        })
 
-    response.json(savedUser)
+        const savedUser = await user.save()
+        response.json(savedUser)
+    } catch (error) {
+        next(error)
+    }
 })
 
 usersRouter.delete('/:id', async (req, res, next) => {
