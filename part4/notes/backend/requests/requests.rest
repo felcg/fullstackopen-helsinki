@@ -12,8 +12,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlb
 
 {
     "content": "Reading is fundamental 3",
-    "important": true,
-    "userId": "5eae039d2415d83890405edc"
+    "important": true
 }
 
 ###
