@@ -4,18 +4,18 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbGlwZSIsImlkIjoiNWViMGM2NDM2Y2VmY2QyZmZjODQwNTg0IiwiaWF0IjoxNTg4NjUxMjUzfQ.UtIg-RsZK1C1UYO7dBBGmxr5ERxbWOUTj2n523mnb2k
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbCIsImlkIjoiNWViMGM4NjE3NWU3ZTMxOGE4OGFhMDE0IiwiaWF0IjoxNTg4NjU0NzcyfQ.lhiYWLXi7cdTasHNkEIH0M4hxMcKvuV7v0odP1HSjFE
 
 {
-    "title": "One day I will finish gamelogged.com",
+    "title": "One day I will finish gamelogged.com 2",
     "author": "Felipe",
     "url": "String",
     "likes": 108
 }
 
 ###
-DELETE http://localhost:3003/api/blogs/5eb0e580b67cfc39dccd8a1a
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbCIsImlkIjoiNWViMGM4NjE3NWU3ZTMxOGE4OGFhMDE0IiwiaWF0IjoxNTg4NjUxNDc1fQ.He83BpLxUR2FwOOhATT0f29J-kBH4iWCtxlpnsarsl4
+DELETE http://localhost:3003/api/blogs/5eb0f2c0ffac06058861bf27
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbCIsImlkIjoiNWViMGM4NjE3NWU3ZTMxOGE4OGFhMDE0IiwiaWF0IjoxNTg4NjU0NzcyfQ.lhiYWLXi7cdTasHNkEIH0M4hxMcKvuV7v0odP1HSjFE
 
 ###
 PUT http://localhost:3003/api/blogs/5eacc3e01657b0371c9cc925
@@ -47,6 +47,6 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username": "Fel",
-    "password": "123456"
+    "username": "Felipe",
+    "password": "password"
 }
