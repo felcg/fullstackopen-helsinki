@@ -1,8 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 
 const Blog = ({ blog }) => (
   <div>
-    <p>"{blog.title}" - {blog.author}</p>
+    "{blog.title}" - {blog.author}
   </div>
 )
 
