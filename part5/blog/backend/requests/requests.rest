@@ -1,0 +1,52 @@
+GET http://localhost:3003/api/blogs
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbCIsImlkIjoiNWViMGM4NjE3NWU3ZTMxOGE4OGFhMDE0IiwiaWF0IjoxNTg4NjU0NzcyfQ.lhiYWLXi7cdTasHNkEIH0M4hxMcKvuV7v0odP1HSjFE
+
+{
+    "title": "One day I will finish gamelogged.com 2",
+    "author": "Felipe",
+    "url": "String",
+    "likes": 108
+}
+
+###
+DELETE http://localhost:3003/api/blogs/5eb0f2c0ffac06058861bf27
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbCIsImlkIjoiNWViMGM4NjE3NWU3ZTMxOGE4OGFhMDE0IiwiaWF0IjoxNTg4NjU0NzcyfQ.lhiYWLXi7cdTasHNkEIH0M4hxMcKvuV7v0odP1HSjFE
+
+###
+PUT http://localhost:3003/api/blogs/5eacc3e01657b0371c9cc925
+Content-Type: application/json
+
+{
+    "likes": 10
+}
+
+###
+
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "Felipe",
+    "name": "xfelipecg",
+    "password": "123456"
+}
+
+###
+DELETE http://localhost:3003/api/users/5eb0c5dd58ebfe4508ab3cc3
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "Felipe",
+    "password": "password"
+}
