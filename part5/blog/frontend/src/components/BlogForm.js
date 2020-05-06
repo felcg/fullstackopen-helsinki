@@ -5,17 +5,20 @@ const BlogForm = ({
   title,
   author,
   url,
-  handleTitleChange,
-  handleAuthorChange,
-  handleUrlChange,
+  setTitle,
+  setAuthor,
+  setUrl,
 }) => (
+
+  // Passamos o event.target do onChange desestruturado, pegando
+  // apenas o targe e o usando para modificar o States desejados
   <form onSubmit={onSubmit}>
     <div>
       title
       <input
         type="text"
         value={title}
-        onChange={handleTitleChange}
+        onChange={({ target }) => setTitle(target.value)}
       />
     </div>
     <div>
@@ -23,7 +26,7 @@ const BlogForm = ({
       <input
         type="text"
         value={author}
-        onChange={handleAuthorChange}
+        onChange={({ target }) => setAuthor(target.value)}
       />
     </div>
     <div>
@@ -31,7 +34,7 @@ const BlogForm = ({
       <input
         type="text"
         value={url}
-        onChange={handleUrlChange}
+        onChange={({ target }) => setUrl(target.value)}
       />
     </div>
     <button type="submit">create</button>

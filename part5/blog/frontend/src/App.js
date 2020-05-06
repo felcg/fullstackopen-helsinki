@@ -20,6 +20,8 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
+  // Checa se o usuario tem suas credenciais gravadas no localStorage
+  // do browser, se tiver ele loga o usuario
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogeappUser')
     if (loggedUserJSON) {
@@ -29,15 +31,18 @@ const App = () => {
     }
   }, [])
 
+
   const addBlog = async (event) => {
     event.preventDefault()
     try {
+      // cria um objeto blog com titulo, author e url
       const BlogObject = {
         title,
         author,
         url,
       }
 
+      // retorna o blog criado pelo blogService e o adiciona a lista de blogs
       const returnedBlog = await blogService.create(BlogObject)
       setBlogs(blogs.concat(returnedBlog))
 
@@ -46,6 +51,7 @@ const App = () => {
         setNotificationMessage(null)
       }, 5000)
 
+      // reseta o state do titulo, author e url
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -57,21 +63,26 @@ const App = () => {
     }
   }
 
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
+      // recebe o objeto do usuario quando ele tenta logar
       const user = await loginService.login({
         username,
         password,
       })
 
+      // guarda as credenciais no localStorage
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
+      // usa o setToken do blogService para dar ao usuario seu token
+      // para que ele possa criar blogs novos, o coloca como usuario ativo
+      // e reseta os campos de username e password
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
-      console.log('logging in with', username, password)
     } catch (exception) {
       console.log(exception)
       setNotificationMessage('Wrong credentials')
@@ -86,6 +97,8 @@ const App = () => {
     setUser(null)
   }
 
+  // Mostra o login caso o usuário nao esteja logado
+  // e os blogs e formulario para postar um novo caso esteja
   return (
     <div>
       <Notification message={notificationMessage} />
@@ -111,9 +124,9 @@ const App = () => {
             title={title}
             author={author}
             url={url}
-            handleTitleChange={({ target }) => setTitle(target.value)}
-            handleAuthorChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
+            setTitle={setTitle}
+            setAuthor={setAuthor}
+            setUrl={setUrl}
           />
 
           {blogs.map((blog) => (
