@@ -120,7 +120,7 @@ const App = () => {
           <h2>blogs</h2>
           <p>{user.name} logged in</p>
           <button type="button" onClick={logout}>logout</button>
-          <Toggable buttonLabel="post new blog">
+          <Toggable buttonLabel="Post new blog">
             <h2>Create New</h2>
             <BlogForm
               onSubmit={addBlog}
