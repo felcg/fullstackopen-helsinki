@@ -1,0 +1,54 @@
+GET http://localhost:3001/api/notes/
+
+###
+
+GET http://localhost:3001/api/notes/5ea7084f3779933ae0ee5792
+
+###
+
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkZlbGlwZSIsImlkIjoiNWVhZTAzYmEyNDE1ZDgzODkwNDA1ZWRkIiwiaWF0IjoxNTg4NjM2NjMwfQ.zf64k5d3Fb20DVXz8TD8dpsIp_X10054avSBuXOiRGA
+
+{
+    "content": "Reading is fundamental 3",
+    "important": true
+}
+
+###
+
+DELETE http://localhost:3001/api/notes/5ea7084f3779933ae0ee5792
+
+###
+
+PUT http://localhost:3001/api/notes/5ea7585207ccb73aac5d170f
+Content-Type: application/json
+
+{
+    "content": "VS Code REST client is pretty good... pretty good.",
+    "important": false
+}
+
+### 
+GET http://localhost:3001/api/users/
+
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "Felipe2",
+    "name": "xfelipecg",
+    "password": "password"
+}
+
+
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "Felipe",
+    "password": "password"
+}

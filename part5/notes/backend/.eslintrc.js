@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
+    jest: true
   },
   extends: "eslint:recommended",
   extends: "airbnb",
@@ -25,12 +26,5 @@ module.exports = {
     "no-console": 0,
     "no-underscore-dangle": ["error", { "allow": ["foo_", "_id", "__v"] }],
     "no-param-reassign": ["error", { "props": false }],
-    "react/jsx-filename-extension": [1, {
-      "extensions": [".js", ".jsx"]}
-      ],
-    "react/prop-types": "off",
-    "no-shadow": "off",
-    "react/jsx-one-expression-per-line": "off",
-    "react/button-has-type": "off"
   },
 };
