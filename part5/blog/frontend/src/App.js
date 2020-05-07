@@ -9,9 +9,6 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +21,7 @@ const App = () => {
   // Checa se o usuario tem suas credenciais gravadas no localStorage
   // do browser, se tiver ele loga o usuario
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogeappUser')
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -33,29 +30,16 @@ const App = () => {
   }, [])
 
 
-  const addBlog = async (event) => {
-    event.preventDefault()
+  const addBlog = async (blogObject) => {
     try {
-      // cria um objeto blog com titulo, author e url
-      const BlogObject = {
-        title,
-        author,
-        url,
-      }
-
       // retorna o blog criado pelo blogService e o adiciona a lista de blogs
-      const returnedBlog = await blogService.create(BlogObject)
+      const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
 
-      setNotificationMessage(`A new blog ${title} by ${author} was added`)
+      setNotificationMessage(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
       setTimeout(() => {
         setNotificationMessage(null)
       }, 5000)
-
-      // reseta o state do titulo, author e url
-      setTitle('')
-      setAuthor('')
-      setUrl('')
     } catch (error) {
       setNotificationMessage(error)
       setTimeout(() => {
@@ -75,7 +59,7 @@ const App = () => {
       })
 
       // guarda as credenciais no localStorage
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
       // usa o setToken do blogService para dar ao usuario seu token
       // para que ele possa criar blogs novos, o coloca como usuario ativo
@@ -123,13 +107,7 @@ const App = () => {
           <Toggable buttonLabel="Post new blog">
             <h2>Create New</h2>
             <BlogForm
-              onSubmit={addBlog}
-              title={title}
-              author={author}
-              url={url}
-              setTitle={setTitle}
-              setAuthor={setAuthor}
-              setUrl={setUrl}
+              addBlog={addBlog}
             />
           </Toggable>
 
