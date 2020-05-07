@@ -12,7 +12,14 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
+    const getData = async () => {
+      const blogs = await blogService.getAll()
+      // Usa o sort para ordenar o array dos blogs pelos blogs com
+      // mais likes
+      const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes)
+      setBlogs(sortedBlogs)
+    }
+    getData()
   }, [])
 
   // Checa se o usuario tem suas credenciais gravadas no localStorage
