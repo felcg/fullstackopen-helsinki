@@ -5,13 +5,10 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Toggable from './components/Toggable'
 import blogService from './services/blogs'
-import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
@@ -48,26 +45,12 @@ const App = () => {
     }
   }
 
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (returnedUser) => {
     try {
-      // recebe o objeto do usuario quando ele tenta logar
-      const user = await loginService.login({
-        username,
-        password,
-      })
-
-      // guarda as credenciais no localStorage
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-
       // usa o setToken do blogService para dar ao usuario seu token
       // para que ele possa criar blogs novos, o coloca como usuario ativo
-      // e reseta os campos de username e password
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      blogService.setToken(returnedUser.token)
+      setUser(returnedUser)
     } catch (exception) {
       console.log(exception)
       setNotificationMessage('Wrong credentials')
@@ -91,13 +74,7 @@ const App = () => {
       <h1>Please login</h1>
       { user === null ? (
         <div>
-          <LoginForm
-            handleLogin={handleLogin}
-            username={username}
-            password={password}
-            setUsername={setUsername}
-            setPassword={setPassword}
-          />
+          <LoginForm logUser={handleLogin} />
         </div>
       ) : (
         <div>
