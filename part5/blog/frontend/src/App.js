@@ -73,7 +73,6 @@ const App = () => {
     setUser(null)
   }
 
-
   // Pergunta ao usuário se ele realmente quer remover o blog e o remove
   // caso a resposta seja positiva, entao atualiza o state dos blogs com
   // um array com os blogs sem o blog que foi removido

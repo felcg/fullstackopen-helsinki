@@ -32,6 +32,7 @@ module.exports = {
     "no-shadow": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/button-has-type": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "react/require-default-props": "off"
   },
 };
