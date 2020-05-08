@@ -36,6 +36,17 @@ const updateLikes = async (updatedBlog) => {
   return response.data
 }
 
+const deleteBlog = async (blogToDelete) => {
+  // Nosso backend permite deletar blogs apenas caso o usuário seja o dono do post
+  // por isso precisamos passar o token no header
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.delete(`${baseUrl}/${blogToDelete.id}`, config)
+  return response.data
+}
+
 export default {
-  getAll, setToken, create, updateLikes,
+  getAll, setToken, create, updateLikes, deleteBlog,
 }

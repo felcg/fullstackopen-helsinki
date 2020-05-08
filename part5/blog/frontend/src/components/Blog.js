@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import '../App.css'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, removeBlog, showRemoveButton }) => {
   const [visible, setVisible] = useState(false)
   const [likes, setLikes] = useState(blog.likes)
   const hideWhenVisible = { display: visible ? 'none' : '' }
@@ -33,6 +33,7 @@ const Blog = ({ blog }) => {
     setLikes(response.likes)
   }
 
+
   return (
     <div>
       <div style={hideWhenVisible}>
@@ -57,7 +58,9 @@ const Blog = ({ blog }) => {
             <button onClick={() => addLike(blog)}>like</button>
           </div>
           <p>{blog.user.username}</p>
-
+          {/* usando o Inline If with Logical && Operator mostramos o botão para remover
+          o blog caso showRemoveButton seja true */}
+          {showRemoveButton && <button onClick={() => removeBlog(blog)}>remove</button> }
         </div>
       </div>
     </div>

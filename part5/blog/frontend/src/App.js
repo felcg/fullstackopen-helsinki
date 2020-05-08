@@ -73,6 +73,18 @@ const App = () => {
     setUser(null)
   }
 
+
+  // Pergunta ao usuário se ele realmente quer remover o blog e o remove
+  // caso a resposta seja positiva, entao atualiza o state dos blogs com
+  // um array com os blogs sem o blog que foi removido
+  const removeBlog = async (blog) => {
+    if (window.confirm(`Do you really want to remove ${blog.title}?`)) {
+      await blogService.deleteBlog(blog)
+      const newBlogs = blogs.filter((b) => b.id !== blog.id)
+      setBlogs(newBlogs)
+    }
+  }
+
   // Mostra o login caso o usuário nao esteja logado
   // e os blogs e formulario para postar um novo caso esteja
   return (
@@ -96,7 +108,14 @@ const App = () => {
           </Toggable>
 
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog
+              key={blog.id}
+              blog={blog}
+              removeBlog={removeBlog}
+              // showRemoveButton tem o valor true caso o id do usuario
+              // seja igual ao id do usuario que postou o blog
+              showRemoveButton={user && (user.id === blog.user.id)}
+            />
           ))}
         </div>
       )}
