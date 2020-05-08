@@ -1,23 +1,24 @@
-import React, { useState } from "react";
-import loginService from "../services/login";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import loginService from '../services/login'
 
 const LoginForm = ({ logUser }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const user = await loginService.login({
       username,
       password,
-    });
+    })
 
-    window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
+    window.localStorage.setItem('loggedNoteappUser', JSON.stringify(user))
 
-    logUser(user);
-    setUsername("");
-    setPassword("");
-  };
+    logUser(user)
+    setUsername('')
+    setPassword('')
+  }
 
   return (
     <form onSubmit={handleLogin}>
@@ -41,7 +42,11 @@ const LoginForm = ({ logUser }) => {
       </div>
       <button type="submit">login</button>
     </form>
-  );
-};
+  )
+}
 
-export default LoginForm;
+LoginForm.propTypes = {
+  logUser: PropTypes.func.isRequired,
+}
+
+export default LoginForm
