@@ -5,7 +5,7 @@ import Footer from './components/Footer'
 import Note from './components/Note'
 import LoginForm from './components/LoginForm'
 import NoteForm from './components/NoteForm'
-import Toggable from './components/Toggable'
+import Togglable from './components/Togglable'
 import noteService from './services/notes'
 
 const App = () => {
@@ -81,18 +81,18 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {user === null ? (
-        <Toggable buttonLabel="Login">
+        <Togglable buttonLabel="Login">
           <LoginForm logUser={handleLogin} />
-        </Toggable>
+        </Togglable>
       ) : (
         <div>
           <p>{user.name} logged in</p>
           <button type="button" onClick={logout}>
             logout
           </button>
-          <Toggable buttonLabel="A new note" ref={noteFormRef}>
+          <Togglable buttonLabel="A new note" ref={noteFormRef}>
             <NoteForm createNote={addNote} />
-          </Toggable>
+          </Togglable>
         </div>
       )}
 
