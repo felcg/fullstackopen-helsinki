@@ -20,7 +20,7 @@ const App = () => {
       setBlogs(sortedBlogs)
     }
     getData()
-  }, [])
+  }, [blogs.length])
 
   // Checa se o usuario tem suas credenciais gravadas no localStorage
   // do browser, se tiver ele loga o usuario
@@ -32,7 +32,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
 
   const addBlog = async (blogObject) => {
     try {

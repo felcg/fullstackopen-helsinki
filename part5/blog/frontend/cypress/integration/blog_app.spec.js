@@ -62,6 +62,11 @@ describe('Blog app', () => {
         cy.contains('like').click()
         cy.get('#likes').contains('1')
       })
+
+      it('Can delete blog if user made it', () => {
+        cy.contains('view more').click()
+        cy.contains('remove')
+      })
     })
   })
 })
