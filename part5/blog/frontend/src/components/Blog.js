@@ -52,11 +52,11 @@ const Blog = ({ blog, removeBlog, showRemoveButton }) => {
             <button onClick={toggleVisibility}>hide</button>
           </div>
           <p>{blog.url}</p>
-          <div style={flex}>
+          <div className="blogLikes" style={flex}>
             <p id="likes">{likes}</p>
             {/* se colocasse addLike(blog) direto ao invés de
              () => addLike() o onlick dispararia para todos os blogs */}
-            <button onClick={() => addLike(blog)}>like</button>
+            <button id="like-button" onClick={() => addLike(blog)}>like</button>
           </div>
           <p>{blog.user ? blog.user.username : null}</p>
           {/* usando o Inline If with Logical && Operator mostramos o botão para remover

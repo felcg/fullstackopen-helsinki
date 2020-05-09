@@ -10,6 +10,7 @@ describe('Blog app', () => {
     cy.visit('http://localhost:3000')
   })
 
+
   it('Login from is shown', () => {
     cy.visit('http://localhost:3000')
     cy.contains('Please login')
@@ -52,9 +53,9 @@ describe('Blog app', () => {
       cy.contains('A new blog Test title by Test author was added')
     })
 
-    describe('When a blog exists', () => {
+    describe('When a blogs exists', () => {
       beforeEach(() => {
-        cy.create()
+        cy.create('Teste', 'Felipe', 'url')
       })
 
       it('Can like a blog', () => {
@@ -66,6 +67,29 @@ describe('Blog app', () => {
       it('Can delete blog if user made it', () => {
         cy.contains('view more').click()
         cy.contains('remove')
+      })
+    })
+
+    describe('When some blogs exists', () => {
+      beforeEach(() => {
+        cy.createBlog({
+          title: 'Teste', author: 'Felipe3', url: 'url', likes: 15,
+        })
+        cy.createBlog({
+          title: 'Teste', author: 'Felipe2', url: 'url', likes: 20,
+        })
+        cy.createBlog({
+          title: 'Teste', author: 'Felipe1', url: 'url', likes: 30,
+        })
+      })
+
+      it('Sorts the blogs by the ones with most likes first', () => {
+        cy.get('.blogLikes')
+          .then((blogLikes) => {
+            cy.wrap(blogLikes[0]).should('contain', 30)
+            cy.wrap(blogLikes[1]).should('contain', 20)
+            cy.wrap(blogLikes[2]).should('contain', 15)
+          })
       })
     })
   })
