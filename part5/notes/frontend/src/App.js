@@ -13,6 +13,8 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => setNotes(initialNotes))
@@ -55,10 +57,21 @@ const App = () => {
       })
   }
 
-  const handleLogin = async (returnedUser) => {
+  const handleLogin = async (event) => {
+    event.preventDefault()
     try {
-      noteService.setToken(returnedUser.token)
-      setUser(returnedUser)
+      const user = await loginService.login({
+        username, password,
+      })
+
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
+
+      noteService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
     } catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -82,7 +95,13 @@ const App = () => {
 
       {user === null ? (
         <Togglable buttonLabel="Login">
-          <LoginForm logUser={handleLogin} />
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
         </Togglable>
       ) : (
         <div>
