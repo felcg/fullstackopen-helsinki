@@ -37,7 +37,7 @@ const Blog = ({ blog, removeBlog, showRemoveButton }) => {
 
   return (
     <div>
-      <div style={hideWhenVisible}>
+      <div style={hideWhenVisible} className="blogPartial">
         <div style={blogStyle}>
           <div style={flex}>
             <p>"{blog.title}" - {blog.author}</p>
@@ -45,7 +45,7 @@ const Blog = ({ blog, removeBlog, showRemoveButton }) => {
           </div>
         </div>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className="blogFull">
         <div style={blogStyle}>
           <div style={flex}>
             <p>"{blog.title}" - {blog.author}</p>
@@ -58,7 +58,7 @@ const Blog = ({ blog, removeBlog, showRemoveButton }) => {
              () => addLike() o onlick dispararia para todos os blogs */}
             <button onClick={() => addLike(blog)}>like</button>
           </div>
-          <p>{blog.user.username}</p>
+          <p>{blog.user ? blog.user.username : null}</p>
           {/* usando o Inline If with Logical && Operator mostramos o botão para remover
           o blog caso showRemoveButton seja true */}
           {showRemoveButton && <button onClick={() => removeBlog(blog)}>remove</button> }
