@@ -59,7 +59,6 @@ const App = () => {
       blogService.setToken(returnedUser.token)
       setUser(returnedUser)
     } catch (exception) {
-      console.log(exception)
       setNotificationMessage('Wrong credentials')
       setTimeout(() => {
         setNotificationMessage(null)
@@ -98,7 +97,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <p>{user.name} logged in</p>
-          <button type="button" onClick={logout}>logout</button>
+          <button id="logout-button" type="button" onClick={logout}>logout</button>
           <Toggable buttonLabel="Post new blog">
             <h2>Create New</h2>
             <BlogForm

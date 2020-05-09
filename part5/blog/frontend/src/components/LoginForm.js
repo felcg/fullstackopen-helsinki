@@ -8,26 +8,32 @@ const LoginForm = ({ logUser }) => {
 
   const login = async (event) => {
     event.preventDefault()
-    // recebe o objeto do usuario quando ele tenta logar
-    const user = await loginService.login({
-      username,
-      password,
-    })
+    // tenta logar, caso nao consiga, chama o logUser() sem parametros
+    // para ativar a notificação
+    try {
+      // recebe o objeto do usuario quando ele tenta logar
+      const user = await loginService.login({
+        username,
+        password,
+      })
+      // guarda as credenciais no localStorage
+      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
-    // guarda as credenciais no localStorage
-    window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+      logUser(user)
 
-    logUser(user)
-
-    // reseta os campos de username e password
-    setUsername('')
-    setPassword('')
+      // reseta os campos de username e password
+      setUsername('')
+      setPassword('')
+    } catch (error) {
+      logUser()
+    }
   }
   return (
     <form onSubmit={login}>
       <div>
         username
         <input
+          id="username"
           type="text"
           value={username}
           name="Username"
@@ -37,13 +43,14 @@ const LoginForm = ({ logUser }) => {
       <div>
         password
         <input
+          id="password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login-button" type="submit">login</button>
     </form>
   )
 }
