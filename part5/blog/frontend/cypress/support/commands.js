@@ -32,3 +32,11 @@ Cypress.Commands.add('login', ({ username, password }) => {
   cy.get('#login-button')
     .click()
 })
+
+Cypress.Commands.add('create', () => {
+  cy.contains('Post new blog').click()
+  cy.get('#title').type('Test title')
+  cy.get('#author').type('Test author')
+  cy.get('#url').type('Test url')
+  cy.get('#create-button').click()
+})

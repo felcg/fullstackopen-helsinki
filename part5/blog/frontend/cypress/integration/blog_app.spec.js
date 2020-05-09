@@ -51,5 +51,17 @@ describe('Blog app', () => {
       cy.get('#create-button').click()
       cy.contains('A new blog Test title by Test author was added')
     })
+
+    describe('When a blog exists', () => {
+      beforeEach(() => {
+        cy.create()
+      })
+
+      it('Can like a blog', () => {
+        cy.contains('view more').click()
+        cy.contains('like').click()
+        cy.get('#likes').contains('1')
+      })
+    })
   })
 })

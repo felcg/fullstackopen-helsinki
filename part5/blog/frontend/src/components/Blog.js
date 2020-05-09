@@ -53,7 +53,7 @@ const Blog = ({ blog, removeBlog, showRemoveButton }) => {
           </div>
           <p>{blog.url}</p>
           <div style={flex}>
-            <p>{likes}</p>
+            <p id="likes">{likes}</p>
             {/* se colocasse addLike(blog) direto ao invés de
              () => addLike() o onlick dispararia para todos os blogs */}
             <button onClick={() => addLike(blog)}>like</button>
