@@ -3,14 +3,17 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    jest: true
+    jest: true,
+    "cypress/globals": true
   },
-  extends: "eslint:recommended",
-  extends: "airbnb",
+  extends: ["eslint:recommended", "airbnb"],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
   },
+  "plugins": [
+    "react", "jest", "cypress"
+  ],
   parserOptions: {
     ecmaVersion: 2018,
   },
