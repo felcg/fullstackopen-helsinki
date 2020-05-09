@@ -37,4 +37,19 @@ describe('Blog app', () => {
       cy.contains('Wrong credentials')
     })
   })
+
+  describe.only('When logged in', () => {
+    beforeEach(() => {
+      cy.login({ username: 'felipe', password: 'felipe' })
+    })
+
+    it('A blog can be created', () => {
+      cy.contains('Post new blog').click()
+      cy.get('#title').type('Test title')
+      cy.get('#author').type('Test author')
+      cy.get('#url').type('Test url')
+      cy.get('#create-button').click()
+      cy.contains('A new blog Test title by Test author was added')
+    })
+  })
 })

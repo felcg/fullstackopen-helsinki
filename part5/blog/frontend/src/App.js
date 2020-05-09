@@ -39,7 +39,6 @@ const App = () => {
       // retorna o blog criado pelo blogService e o adiciona a lista de blogs
       const returnedBlog = await blogService.create(blogObject)
       setBlogs(blogs.concat(returnedBlog))
-
       setNotificationMessage(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
       setTimeout(() => {
         setNotificationMessage(null)
