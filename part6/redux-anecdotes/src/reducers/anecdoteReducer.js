@@ -22,12 +22,12 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-  console.log('action id', action.id)
+  
   switch (action.type) {
     case 'VOTE':
+      console.log('action id', action.id)
       const { id } = action
       const anecdoteToVote = state.find((n) => n.id === id)
-      console.log(anecdoteToVote)
       const changedAnecdote = {
         ...anecdoteToVote,
         votes: anecdoteToVote.votes+1,
