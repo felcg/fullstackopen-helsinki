@@ -1,10 +1,9 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { createNote } from '../reducers/noteReducer'
 
 
 const NewNote = (props) => {
-  const state = useSelector((state) => state)
   const dispatch = useDispatch()
 
   const addNote = (event) => {
@@ -12,7 +11,6 @@ const NewNote = (props) => {
     const content = event.target.note.value
     event.target.note.value = ''
     dispatch(createNote(content))
-    console.log(state)
   }
 
   return (
