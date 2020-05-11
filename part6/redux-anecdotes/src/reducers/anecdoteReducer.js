@@ -33,6 +33,13 @@ const reducer = (state = initialState, action) => {
         votes: anecdoteToVote.votes+1,
       }
     return state.map((note) => (note.id !== id ? note : changedAnecdote))
+    case 'CREATE':
+      const newNote = {
+        content: action.content,
+        id: getId(),
+        votes: 0
+      }
+      return [...state, newNote]
     default:
       return state
     }  
