@@ -22,8 +22,8 @@ const AnecdoteList = () => {
         if ( filter.type === 'FILTER_ON' ) {
         return anecdotes.filter((anecdotesArray => anecdotesArray.content.includes(filter.content)))
         }
+        console.log(anecdotes)
         return anecdotes.sort((a, b) => b.votes - a.votes)
-        
       })
     
     const dispatch = useDispatch()
@@ -31,7 +31,7 @@ const AnecdoteList = () => {
     return(
     <ul >
         {anecdotes.map((anecdote) => (
-        <Anecdote 
+        <Anecdote
             key={anecdote.id} 
             anecdote={anecdote} 
             handleClick={() => {
