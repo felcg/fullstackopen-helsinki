@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addVote} from '../reducers/anecdoteReducer'
 import {setNotification, removeNotification} from "../reducers/notificationReducer"
+import anecdoteService from '../services/anecdotes'
 
 const Anecdote = ({anecdote, handleClick}) => (
     <div>
@@ -9,6 +10,9 @@ const Anecdote = ({anecdote, handleClick}) => (
         <div>
             has {anecdote.votes} votes
             <button onClick={handleClick}>vote</button>
+        </div>
+        <div>
+            <button onClick={() => anecdoteService.remove(anecdote.id)}>Remove</button>
         </div>
     </div>
 )
