@@ -13,9 +13,17 @@ const createNew = async (content) => {
     return response.data
 }
 
+const addVote = async (id) => {
+  const anecdotes = await getAll()
+  const anecdote = anecdotes.find(anecdote => anecdote.id === id)
+  const updatedAnecdote = {...anecdote, votes: anecdote.votes+1}
+  const response = await axios.put(`${baseUrl}/${id}`, updatedAnecdote)
+  return response.data
+}
+
 const remove = async(id) => {
     const response = await axios.delete(`${baseUrl}/${id}`)
     return response.data
 }
 
-export default { getAll, createNew, remove }
+export default { getAll, createNew, remove, addVote }
