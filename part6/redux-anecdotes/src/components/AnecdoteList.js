@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addVote } from '../reducers/anecdoteReducer'
-import {setNotification} from "../reducers/notificationReducer"
+import {setNotification, timeoutID} from "../reducers/notificationReducer"
 import anecdoteService from '../services/anecdotes'
 
 const Anecdote = ({anecdote, handleClick}) => (
@@ -27,6 +27,10 @@ const AnecdoteList = (props) => {
             anecdote={anecdote} 
             handleClick={() => {
                 props.addVote(anecdote.id)
+                if(timeoutID) {
+                    console.log(timeoutID)
+                    window.clearTimeout(timeoutID)
+                }
                 props.setNotification(`You voted for "${anecdote.content}"`, 5)
             }} 
         />

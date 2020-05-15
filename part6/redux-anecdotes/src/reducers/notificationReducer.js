@@ -1,3 +1,5 @@
+export let timeoutID
+
 const notificationReducer = (state = {}, action) => {
   switch (action.type) {
   case("NEW_NOTIFICATION"):
@@ -25,10 +27,11 @@ export const setNotification = (message, duration) => {
       type: "NEW_NOTIFICATION",
       message: message
     });
-    setTimeout(() => {
+    timeoutID = setTimeout(() => {
       dispatch(removeNotification());
     }, duration * 1000);
   }
 }
+
 
 export default notificationReducer
