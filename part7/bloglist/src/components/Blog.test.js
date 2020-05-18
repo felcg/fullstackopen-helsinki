@@ -1,0 +1,43 @@
+import React from 'react'
+import '@testing-library/jest-dom/extend-expect'
+import { render, fireEvent } from '@testing-library/react'
+import Blog from './Blog'
+
+describe('Blog', () => {
+  const blog = {
+    title: 'Test4',
+    author: 'Felipe',
+    url: 'test4.com',
+    likes: 4,
+    id: '1234',
+  }
+  let component; let removeBlog; const
+    showRemoveButton = false
+  beforeEach(() => {
+    removeBlog = jest.fn()
+    component = render(
+      <Blog blog={blog} removeBlog={removeBlog} showRemoveButton={showRemoveButton} />,
+    )
+  })
+
+
+  test('renders content', () => {
+    const partialBlog = component.container.querySelector('.blogPartial')
+    expect(partialBlog).toHaveTextContent(blog.title)
+    expect(partialBlog).toHaveTextContent(blog.author)
+  })
+
+  test('blog does not render url and likes by default', () => {
+    const partialBlog = component.container.querySelector('.blogPartial')
+    expect(partialBlog).not.toHaveTextContent('like')
+    expect(partialBlog).not.toHaveTextContent(blog.url)
+  })
+
+  test('blog renders url and likes after revealing it', () => {
+    const button = component.container.querySelector('button')
+    fireEvent.click(button)
+
+    expect(component.container).toHaveTextContent('like')
+    expect(component.container).toHaveTextContent(blog.url)
+  })
+})
