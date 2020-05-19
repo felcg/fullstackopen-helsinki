@@ -1,7 +1,7 @@
 import React, {} from 'react'
 import { connect } from 'react-redux'
-import { addBlog } from '../reducers/blogReducer'
-import { setNotification } from '../reducers/notificationReducer'
+import { addBlog } from '../../reducers/blogReducer'
+import { setNotification } from '../../reducers/notificationReducer'
 
 
 const BlogForm = ({ addBlog, setNotification }) => {

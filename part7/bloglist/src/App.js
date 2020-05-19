@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
-import { setNotification } from './reducers/notificationReducer'
-import { getLoggedUser, getAllUsers } from './reducers/userReducer'
-import BlogList from './components/BlogList'
-import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm'
-import Notification from './components/Notification'
-import Toggable from './components/Toggable'
-import blogService from './services/blogs'
+import { logInUser, logOutUser } from './reducers/userReducer'
+import BlogList from './components/BlogList/BlogList'
+import LoginForm from './components/LoginForm/LoginForm'
+import BlogForm from './components/BlogForm/BlogForm'
+import Notification from './components/Notification/Notification'
+import Toggable from './components/Togglable/Togglable'
 
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(initializeBlogs())
-    dispatch(getAllUsers())
+    // dispatch(getAllUsers())
   }, [dispatch])
-  const [user, setUser] = useState(null)
+
+  const user = useSelector((state) => state.user)
 
   // Checa se o usuario tem suas credenciais gravadas no localStorage
   // do browser, se tiver ele loga o usuario
@@ -24,28 +23,14 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      dispatch(getLoggedUser(user))
-      blogService.setToken(user.token)
+      dispatch(logInUser(user))
     }
   }, [])
-
-  const handleLogin = async (returnedUser) => {
-    try {
-      // usa o setToken do blogService para dar ao usuario seu token
-      // para que ele possa criar blogs novos, o coloca como usuario ativo
-      blogService.setToken(returnedUser.token)
-      setUser(returnedUser)
-      dispatch(getLoggedUser(returnedUser))
-    } catch (exception) {
-      dispatch(setNotification('Wrong credentials', 3))
-    }
-  }
 
   const logout = (event) => {
     event.preventDefault()
     window.localStorage.clear()
-    setUser(null)
+    dispatch(logOutUser())
   }
 
   // Mostra o login caso o usuário nao esteja logado
@@ -56,7 +41,7 @@ const App = () => {
       { user === null ? (
         <div>
           <h1>Please login</h1>
-          <LoginForm logUser={handleLogin} />
+          <LoginForm />
         </div>
       ) : (
         <div>

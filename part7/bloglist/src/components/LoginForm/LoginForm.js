@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import loginService from '../services/login'
+import { useDispatch } from 'react-redux'
+import { logInUser } from '../../reducers/userReducer'
+import { setNotification } from '../../reducers/notificationReducer'
+import loginService from '../../services/login'
 
-const LoginForm = ({ logUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
 
   const login = async (event) => {
     event.preventDefault()
@@ -16,17 +19,16 @@ const LoginForm = ({ logUser }) => {
         username,
         password,
       })
+
+      dispatch(logInUser(user))
       // guarda as credenciais no localStorage
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-
-      logUser(user)
-
-      // reseta os campos de username e password
-      setUsername('')
-      setPassword('')
     } catch (error) {
-      logUser()
+      dispatch(setNotification('Wrong credentials', 3))
     }
+    // reseta os campos de username e password
+    setUsername('')
+    setPassword('')
   }
   return (
     <form onSubmit={login}>
@@ -53,10 +55,6 @@ const LoginForm = ({ logUser }) => {
       <button id="login-button" type="submit">login</button>
     </form>
   )
-}
-
-LoginForm.propTypes = {
-  logUser: PropTypes.func.isRequired,
 }
 
 export default LoginForm

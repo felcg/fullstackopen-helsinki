@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleVisibility, addLike, removeBlog } from '../reducers/blogReducer'
+import { toggleVisibility, addLike, removeBlog } from '../../reducers/blogReducer'
 
 
 const Blog = ({
-  blog, removeBlog, showRemoveButton, toggleVisibility, addLike,
+  blog, removeBlog, toggleVisibility, addLike,
 }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -47,7 +47,8 @@ const Blog = ({
               <p>{blog.user ? blog.user.username : null}</p>
               {/* usando o Inline If with Logical && Operator mostramos o botão para remover
               o blog caso showRemoveButton seja true */}
-              {/* {showRemoveButton && <button onClick={() => removeBlog(blog)}>remove</button> } */}
+              {/* {showRemoveButton &&
+                <button onClick={() => removeBlog(blog)}>remove</button> } */}
               <button onClick={() => removeBlog(blog)}>remove</button>
             </div>
           </div>
