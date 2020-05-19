@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { setNotification } from './reducers/notificationReducer'
+import { getLoggedUser, getAllUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
@@ -13,8 +14,8 @@ const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(getAllUsers())
   }, [dispatch])
-
   const [user, setUser] = useState(null)
 
   // Checa se o usuario tem suas credenciais gravadas no localStorage
@@ -24,6 +25,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      dispatch(getLoggedUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -34,6 +36,7 @@ const App = () => {
       // para que ele possa criar blogs novos, o coloca como usuario ativo
       blogService.setToken(returnedUser.token)
       setUser(returnedUser)
+      dispatch(getLoggedUser(returnedUser))
     } catch (exception) {
       dispatch(setNotification('Wrong credentials', 3))
     }
