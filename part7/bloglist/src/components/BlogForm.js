@@ -1,69 +1,66 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, {} from 'react'
+import { connect } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
-
-const BlogForm = () => {
-  const dispatch = useDispatch()
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+import { setNotification } from '../reducers/notificationReducer'
 
 
-  const addPost = (event) => {
-    event.preventDefault()
+const BlogForm = ({ addBlog, setNotification }) => {
+  const addPost = async (event) => {
+    console.log(event.target)
+    try {
+      event.preventDefault()
+      // cria um objeto blog com titulo, author e url
+      const blogObject = {
+        title: event.target.title.value,
+        author: event.target.author.value,
+        url: event.target.author.value,
+      }
+      // reseta o state do titulo, author e url
+      event.target.title.value = ''
+      event.target.author.value = ''
+      event.target.url.value = ''
 
-    // cria um objeto blog com titulo, author e url
-    const blogObject = {
-      title,
-      author,
-      url,
+      // envia o objeto blog para o metodo addblog no app.js
+      await addBlog(blogObject)
+      setNotification(`A new blog ${blogObject.title} by ${blogObject.author} was added`, 3)
+    } catch (error) {
+      setNotification('There was an error with your post, please check all fields', 3)
     }
-
-    // envia o objeto blog para o metodo addblog no app.js
-    dispatch(addBlog(blogObject))
-
-    // reseta o state do titulo, author e url
-    setTitle('')
-    setAuthor('')
-    setUrl('')
   }
 
-
-  // Passamos o event.target do onChange desestruturado, pegando
-  // apenas o targe e o usando para modificar o States desejados
   return (
-    <form onSubmit={addPost} className="blogForm">
-      <div>
-        title
-        <input
-          id="title"
-          type="text"
-          value={title}
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author
-        <input
-          id="author"
-          type="text"
-          value={author}
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url
-        <input
-          id="url"
-          type="text"
-          value={url}
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button id="create-button" type="submit">create</button>
-    </form>
+    <div>
+      <h2>Create New</h2>
+      <form onSubmit={addPost} className="blogForm">
+        <div>
+          title
+          <input
+            id="title"
+            type="text"
+            name="title"
+          />
+        </div>
+        <div>
+          author
+          <input
+            id="author"
+            type="text"
+            name="author"
+          />
+        </div>
+        <div>
+          url
+          <input
+            id="url"
+            type="text"
+            name="url"
+          />
+        </div>
+        <button id="create-button" type="submit">create</button>
+      </form>
+    </div>
   )
 }
 
 
-export default BlogForm
+export default connect(null, { addBlog, setNotification })(BlogForm)
