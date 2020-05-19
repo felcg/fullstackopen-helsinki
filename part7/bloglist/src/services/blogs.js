@@ -47,11 +47,8 @@ const deleteBlog = async (blogToDelete) => {
   return response.data
 }
 
-const toggleVisibility = async (id) => {
-  const blogs = await getAll()
-  const blogToToggle = blogs.find((blog) => blog.id === id)
-  const toggledBlog = { ...blogToToggle, visibility: !blogToToggle.visibility }
-  const response = await axios.put(`${baseUrl}/${blogToToggle.id}`, toggledBlog)
+const toggleVisibility = async (blogToToggle) => {
+  const response = await axios.put(`${baseUrl}/${blogToToggle.id}`, blogToToggle)
   return response.data
 }
 

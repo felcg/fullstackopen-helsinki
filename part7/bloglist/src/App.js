@@ -28,22 +28,22 @@ const App = () => {
     }
   }, [])
 
-  // const addBlog = async (blogObject) => {
-  //   try {
-  //     // retorna o blog criado pelo blogService e o adiciona a lista de blogs
-  //     const returnedBlog = await blogService.create(blogObject)
-  //     setBlogs(blogs.concat(returnedBlog))
-  //     setNotificationMessage(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
-  //     setTimeout(() => {
-  //       setNotificationMessage(null)
-  //     }, 5000)
-  //   } catch (error) {
-  //     setNotificationMessage(error)
-  //     setTimeout(() => {
-  //       setNotificationMessage(null)
-  //     }, 5000)
-  //   }
-  // }
+  const addBlog = async (blogObject) => {
+    try {
+      // retorna o blog criado pelo blogService e o adiciona a lista de blogs
+      const returnedBlog = await blogService.create(blogObject)
+      // blogs.concat(returnedBlog)
+      setNotificationMessage(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`)
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
+    } catch (error) {
+      setNotificationMessage(error)
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
+    }
+  }
 
   const handleLogin = async (returnedUser) => {
     try {
@@ -65,17 +65,6 @@ const App = () => {
     setUser(null)
   }
 
-  // Pergunta ao usuário se ele realmente quer remover o blog e o remove
-  // caso a resposta seja positiva, entao atualiza o state dos blogs com
-  // um array com os blogs sem o blog que foi removido
-  // const removeBlog = async (blog) => {
-  //   if (window.confirm(`Do you really want to remove ${blog.title}?`)) {
-  //     await blogService.deleteBlog(blog)
-  //     const newBlogs = blogs.filter((b) => b.id !== blog.id)
-  //     setBlogs(newBlogs)
-  //   }
-  // }
-
   // Mostra o login caso o usuário nao esteja logado
   // e os blogs e formulario para postar um novo caso esteja
   return (
@@ -93,9 +82,9 @@ const App = () => {
           <button id="logout-button" type="button" onClick={logout}>logout</button>
           <Toggable buttonLabel="Post new blog">
             <h2>Create New</h2>
-            {/* <BlogForm
+            <BlogForm
               addBlog={addBlog}
-            /> */}
+            />
           </Toggable>
 
           <BlogList />

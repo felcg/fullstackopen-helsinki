@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { addBlog } from '../reducers/blogReducer'
 
-const BlogForm = ({ addBlog }) => {
+const BlogForm = () => {
+  const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -18,7 +20,7 @@ const BlogForm = ({ addBlog }) => {
     }
 
     // envia o objeto blog para o metodo addblog no app.js
-    addBlog(blogObject)
+    dispatch(addBlog(blogObject))
 
     // reseta o state do titulo, author e url
     setTitle('')
@@ -63,8 +65,5 @@ const BlogForm = ({ addBlog }) => {
   )
 }
 
-BlogForm.propTypes = {
-  addBlog: PropTypes.func.isRequired,
-}
 
 export default BlogForm

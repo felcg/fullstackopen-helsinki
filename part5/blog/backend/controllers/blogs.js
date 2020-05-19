@@ -60,7 +60,6 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 
 blogsRouter.put('/:id', async (req, res, next) => {
     const { body } = req
-    console.log(body)
     const blog = {
         likes: body.likes,
         visibility: body.visibility,
