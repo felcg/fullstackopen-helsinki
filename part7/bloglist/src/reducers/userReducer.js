@@ -13,7 +13,6 @@ const userReducer = (state = null, action) => {
 
 
 export const logInUser = (user) => async (dispatch) => {
-  console.log(user)
   dispatch({
     type: 'LOG_IN',
     data: user,
