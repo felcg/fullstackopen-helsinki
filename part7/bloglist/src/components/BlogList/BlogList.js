@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { toggleVisibility, addLike, removeBlog } from '../../reducers/blogReducer'
 
 
@@ -24,7 +25,7 @@ const Blog = ({
           <div className="blogPartial">
             <div style={blogStyle}>
               <div style={flex}>
-                <p>"{blog.title}" - {blog.author}</p>
+                <Link to={`/blogs/${blog.id}`}>"{blog.title}" - {blog.author}</Link>
                 <button onClick={() => toggleVisibility(blog)}>view more</button>
               </div>
             </div>
