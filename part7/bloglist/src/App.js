@@ -38,6 +38,10 @@ const App = () => {
     dispatch(getAllUsers())
   }, [dispatch])
 
+  // useEffect(() => {
+  //   console.log(state)
+  // })
+
   // Checa se o usuario tem suas credenciais gravadas no localStorage
   // do browser, se tiver ele loga o usuario
   useEffect(() => {

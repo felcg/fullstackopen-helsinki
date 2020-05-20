@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { getAllUsers } from './userListReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
@@ -57,11 +58,12 @@ export const addLike = (blog) => async (dispatch) => {
 export const removeBlog = (blog) => async (dispatch) => {
   if (window.confirm(`Do you really want to remove ${blog.title}?`)) {
     const { id } = blog
-    blogService.deleteBlog(blog)
+    await blogService.deleteBlog(blog)
     dispatch({
       type: 'REMOVE_BLOG',
       data: id,
     })
+    dispatch(getAllUsers())
   }
 }
 
@@ -71,6 +73,7 @@ export const addBlog = (blog) => async (dispatch) => {
     type: 'ADD_BLOG',
     data: newBlog,
   })
+  dispatch(getAllUsers())
 }
 
 export default blogReducer

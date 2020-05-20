@@ -3,10 +3,8 @@ import { connect } from 'react-redux'
 import { addBlog } from '../../reducers/blogReducer'
 import { setNotification } from '../../reducers/notificationReducer'
 
-
 const BlogForm = ({ addBlog, setNotification }) => {
   const addPost = async (event) => {
-    console.log(event.target)
     try {
       event.preventDefault()
       // cria um objeto blog com titulo, author e url
