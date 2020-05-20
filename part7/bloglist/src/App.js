@@ -1,28 +1,35 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  BrowserRouter as Router,
-  Switch, Route, Link,
+  Switch, Route, Link, useRouteMatch,
 } from 'react-router-dom'
+
 import { initializeBlogs } from './reducers/blogReducer'
 import { logInUser, logOutUser } from './reducers/userReducer'
 import { getAllUsers } from './reducers/userListReducer'
+
 import BlogList from './components/BlogList/BlogList'
 import LoginForm from './components/LoginForm/LoginForm'
 import BlogForm from './components/BlogForm/BlogForm'
 import UserList from './components/UserList/UserList'
 import Notification from './components/Notification/Notification'
 import Toggable from './components/Togglable/Togglable'
+import User from './components/User/User'
 
 const App = () => {
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+  const users = useSelector((state) => state.users)
+
+  const match = useRouteMatch('/users/:id')
+  const userToDisplay = match
+    ? users.find((user) => user.id === match.params.id)
+    : null
 
   useEffect(() => {
     dispatch(initializeBlogs())
     dispatch(getAllUsers())
   }, [dispatch])
-
-  const user = useSelector((state) => state.user)
 
   // Checa se o usuario tem suas credenciais gravadas no localStorage
   // do browser, se tiver ele loga o usuario
@@ -40,6 +47,9 @@ const App = () => {
     dispatch(logOutUser())
   }
 
+  const padding = {
+    padding: 5,
+  }
   // Mostra o login caso o usuário nao esteja logado
   // e os blogs e formulario para postar um novo caso esteja
   return (
@@ -52,10 +62,18 @@ const App = () => {
         </div>
       ) : (
         <div>
+          <div>
+            <Link style={padding} to="/">home</Link>
+            <Link style={padding} to="/users">users</Link>
+          </div>
+
           <h2>blogs</h2>
           <p>{user.name} logged in</p>
           <button id="logout-button" type="button" onClick={logout}>logout</button>
           <Switch>
+            <Route path="/users/:id">
+              <User user={userToDisplay} />
+            </Route>
             <Route path="/users">
               <UserList />
             </Route>

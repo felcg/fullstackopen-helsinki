@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { logInUser } from '../../reducers/userReducer'
 import { setNotification } from '../../reducers/notificationReducer'
 import loginService from '../../services/login'
@@ -8,6 +9,7 @@ const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const login = async (event) => {
     event.preventDefault()
@@ -29,6 +31,7 @@ const LoginForm = () => {
     // reseta os campos de username e password
     setUsername('')
     setPassword('')
+    history.push('/')
   }
   return (
     <form onSubmit={login}>

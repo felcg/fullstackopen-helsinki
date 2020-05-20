@@ -1,9 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const User = ({ user }) => (
   <tr>
-    <td>{user.username}</td>
+    <td><Link to={`/users/${user.id}`}>{user.username}</Link></td>
     <td>{user.blogs.length}</td>
   </tr>
 )
@@ -17,6 +18,7 @@ const UserList = () => {
       <table>
         <thead>
           <tr>
+            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <th />
             <th>blogs created</th>
           </tr>
