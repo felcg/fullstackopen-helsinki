@@ -1,57 +1,75 @@
 /* eslint-disable react/no-unescaped-entities */
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { toggleVisibility, addLike, removeBlog } from '../../reducers/blogReducer'
+import {
+  toggleVisibility, addLike, removeBlog, addComment,
+} from '../../reducers/blogReducer'
+import { setNotification } from '../../reducers/notificationReducer'
 
 const Blog = ({
-  blog, removeBlog, addLike,
+  blog, removeBlog, addLike, addComment,
 }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 2,
-    width: 400,
+  const postComment = async (event) => {
+    try {
+      event.preventDefault()
+      const comment = {
+        text: event.target.comment.value,
+      }
+      event.target.comment.value = ''
+      await addComment(blog.id, comment)
+      setNotification('Your comment was posted', 3)
+    } catch (error) {
+      setNotification('There was an error with your comment', 3)
+    }
   }
-  const flex = { display: 'flex' }
+
   const history = useHistory()
+  const user = useSelector((state) => state.user.id)
 
   if (!blog) {
     return null
   }
-  console.log(blog)
+
+  const loggedUserIsCreator = user === blog.user.id
+
   return (
-    <div className="blogFull">
-      <div style={blogStyle}>
-        <div style={flex}>
-          <p>"{blog.title}" - {blog.author}</p>
-        </div>
-        <p>{blog.url}</p>
-        <div className="blogLikes" style={flex}>
-          <p id="likes">{blog.likes}</p>
-          {/* se colocasse addLike(blog) direto ao invés de
-        () => addLike() o onlick dispararia para todos os blogs */}
-          <button
-            id="like-button"
-            onClick={() => {
-              addLike(blog)
-            }}
-          >like
+    <div>
+      <div className="blogFull">
+        <div>
+          <h1>{blog.title}</h1>
+          <h3>by {blog.author}</h3>
+          <p>{blog.url}</p>
+          <div className="blogLikes">
+            <p id="likes">{blog.likes}<button id="like-button" onClick={() => addLike(blog)}>like</button></p>
+          </div>
+          <p>added by {blog.user ? blog.user.username : null}</p>
+          {loggedUserIsCreator
+        && (
+          <button onClick={() => {
+            removeBlog(blog)
+            history.push('/')
+          }}
+          >remove
           </button>
+        ) }
         </div>
-        <p>{blog.user ? blog.user.username : null}</p>
-        {/* usando o Inline If with Logical && Operator mostramos o botão para remover
-      o blog caso showRemoveButton seja true */}
-        {/* {showRemoveButton &&
-        <button onClick={() => removeBlog(blog)}>remove</button> } */}
-        <button onClick={() => {
-          removeBlog(blog)
-          history.push('/')
-        }}
-        >remove
-        </button>
+      </div>
+      <div>
+        <h2>Comments</h2>
+        <form onSubmit={postComment}>
+          <input
+            id="comment"
+            type="text"
+            name="comment"
+          />
+          <button id="create-button" type="submit">comment</button>
+        </form>
+        {console.log(blog)}
+        <ul>{blog.comments.map((comment) => (
+          <li key={comment.id}>{comment.text}</li>
+        ))}
+        </ul>
       </div>
     </div>
   )
@@ -62,7 +80,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  toggleVisibility, addLike, removeBlog,
+  toggleVisibility, addLike, removeBlog, addComment, setNotification,
 }
 
 const ConnectedBlog = connect(mapStateToProps, mapDispatchToProps)(Blog)

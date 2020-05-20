@@ -36,6 +36,11 @@ const updateLikes = async (updatedBlog) => {
   return response.data
 }
 
+const addComment = async (id, comment) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, comment)
+  return response.data
+}
+
 const deleteBlog = async (blogToDelete) => {
   // Nosso backend permite deletar blogs apenas caso o usuário seja o dono do post
   // por isso precisamos passar o token no header
@@ -53,5 +58,5 @@ const toggleVisibility = async (blogToToggle) => {
 }
 
 export default {
-  getAll, setToken, create, updateLikes, deleteBlog, toggleVisibility,
+  getAll, setToken, create, updateLikes, deleteBlog, toggleVisibility, addComment,
 }
