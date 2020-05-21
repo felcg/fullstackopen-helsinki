@@ -1,9 +1,24 @@
 import React, {} from 'react'
 import { connect } from 'react-redux'
+
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
+
 import { addBlog } from '../../reducers/blogReducer'
 import { setNotification } from '../../reducers/notificationReducer'
 
+
+const useStyles = makeStyles({
+  form: {
+    display: 'flex',
+    'flex-direction': 'column',
+  },
+})
+
 const BlogForm = ({ addBlog, setNotification }) => {
+  const classes = useStyles()
   const addPost = async (event) => {
     try {
       event.preventDefault()
@@ -27,36 +42,38 @@ const BlogForm = ({ addBlog, setNotification }) => {
   }
 
   return (
-    <div>
-      <h2>Create New</h2>
-      <form onSubmit={addPost} className="blogForm">
-        <div>
-          title
-          <input
+    <Grid
+      container
+      spacing={0}
+      direction="row"
+      justify="center"
+    >
+      <Grid item xs={10} sm={6}>
+        <h2>Create New</h2>
+        <form className={classes.form} onSubmit={addPost}>
+          <TextField
             id="title"
             type="text"
             name="title"
+            label="Title"
           />
-        </div>
-        <div>
-          author
-          <input
+          <TextField
             id="author"
             type="text"
             name="author"
+            label="Author"
           />
-        </div>
-        <div>
-          url
-          <input
+          <TextField
             id="url"
             type="text"
             name="url"
+            label="Url"
           />
-        </div>
-        <button id="create-button" type="submit">create</button>
-      </form>
-    </div>
+          <Button id="create-button" type="submit">create</Button>
+        </form>
+      </Grid>
+
+    </Grid>
   )
 }
 

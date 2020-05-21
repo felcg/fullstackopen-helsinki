@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  Switch, Route, Link, useRouteMatch,
+  Switch, Route, useRouteMatch,
 } from 'react-router-dom'
+import './App.css'
+
+import Container from '@material-ui/core/Container'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { initializeBlogs } from './reducers/blogReducer'
-import { logInUser, logOutUser } from './reducers/userReducer'
+import { logInUser } from './reducers/userReducer'
 import { getAllUsers } from './reducers/userListReducer'
 
 import BlogList from './components/BlogList/BlogList'
@@ -15,10 +19,19 @@ import UserList from './components/UserList/UserList'
 import User from './components/User/User'
 import LoginForm from './components/LoginForm/LoginForm'
 import Notification from './components/Notification/Notification'
-import Toggable from './components/Togglable/Togglable'
+import Navbar from './components/Navbar/Navbar'
+
+const useStyles = makeStyles({
+  container: {
+    padding: '0',
+    margin: '0',
+    maxWidth: 'none',
+  },
+})
 
 const App = () => {
   const dispatch = useDispatch()
+  const classes = useStyles()
   const user = useSelector((state) => state.user)
   const users = useSelector((state) => state.users)
   const blogs = useSelector((state) => state.blogs)
@@ -38,10 +51,6 @@ const App = () => {
     dispatch(getAllUsers())
   }, [dispatch])
 
-  // useEffect(() => {
-  //   console.log(state)
-  // })
-
   // Checa se o usuario tem suas credenciais gravadas no localStorage
   // do browser, se tiver ele loga o usuario
   useEffect(() => {
@@ -52,37 +61,20 @@ const App = () => {
     }
   }, [dispatch])
 
-  const logout = (event) => {
-    event.preventDefault()
-    window.localStorage.clear()
-    dispatch(logOutUser())
-  }
-
-  const padding = {
-    padding: 5,
-  }
   // Mostra o login caso o usuário nao esteja logado
   // e os blogs e formulario para postar um novo caso esteja
   return (
-    <div>
+    <Container className={classes.container}>
+      <Navbar />
       <Notification />
       { user === null ? (
-        <div>
-          <h1>Please login</h1>
-          <LoginForm />
-        </div>
+        <LoginForm />
       ) : (
         <div>
-          <div>
-            <Link style={padding} to="/">home</Link>
-            <Link style={padding} to="/users">users</Link>
-          </div>
-
-          <h2>blogs</h2>
-          <p>{user.name} logged in</p>
-          <button id="logout-button" type="button" onClick={logout}>logout</button>
           <Switch>
-
+            <Route path="/newBlog">
+              <BlogForm />
+            </Route>
             <Route path="/users/:id">
               <User user={userToDisplay} />
             </Route>
@@ -93,15 +85,12 @@ const App = () => {
               <Blog blog={blogToDisplay} />
             </Route>
             <Route path="/">
-              <Toggable buttonLabel="Post new blog">
-                <BlogForm />
-              </Toggable>
               <BlogList />
             </Route>
           </Switch>
         </div>
       )}
-    </div>
+    </Container>
   )
 }
 

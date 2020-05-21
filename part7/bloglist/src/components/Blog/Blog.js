@@ -65,7 +65,6 @@ const Blog = ({
           />
           <button id="create-button" type="submit">comment</button>
         </form>
-        {console.log(blog)}
         <ul>{blog.comments.map((comment) => (
           <li key={comment.id}>{comment.text}</li>
         ))}
