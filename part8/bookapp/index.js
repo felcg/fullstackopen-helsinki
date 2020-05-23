@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+const { v1: uuid } = require('uuid');
 
 const authors = [
   {
@@ -32,7 +33,7 @@ const authors = [
  * Yksinkertaisuuden vuoksi tallennamme kuitenkin kirjan yhteyteen tekijän nimen
 */
 
-const books = [
+let books = [
   {
     title: 'Clean Code',
     published: 2008,
@@ -88,13 +89,13 @@ const typeDefs = gql`
   type Author {
       name: String!,
       id: ID!,
-      born: String!
+      born: String
       bookCount: Int!
   }
 
   type Book {
     title: String!,
-    published: String!
+    published: Int!
     author: String!
     id: ID!
     genres: [String!]
@@ -105,6 +106,15 @@ const typeDefs = gql`
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+  }
+
+  type Mutation {
+      addBook(
+        title: String!,
+        published: Int!
+        author: String!
+        genres: [String!]
+      ): Book
   }
 `;
 
@@ -130,6 +140,13 @@ const resolvers = {
     allAuthors: () => authors.map((author) => (
       { ...author, bookCount: books.filter((book) => book.author === author.name).length }
     )),
+  },
+  Mutation: {
+    addBook: (root, args) => {
+      const book = { ...args, id: uuid() };
+      books = books.concat(book);
+      return book;
+    },
   },
 };
 
